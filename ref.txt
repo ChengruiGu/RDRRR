@@ -1,0 +1,28 @@
+游戏规则
+https://www.sjbaker.org/paper_and_pencil_games/graph_racers/
+
+围棋棋盘、棋子
+https://www.cnblogs.com/Colin-Cai/p/8506691.html
+
+例子：
+https://boardgamegeek.com/image/228071/racetrack
+
+颜色：
+colorhexa.com
+
+棋盘：
+
+
+
+控制方案：
+1. 鼠标点击5个潜在点
+2. 方向键选择
+
+
+
+开发：
+1. 画出网格棋盘
+2. 画出基础棋子
+3. 移动棋子
+4. 限制拖拽范围
+5. 画出跑道

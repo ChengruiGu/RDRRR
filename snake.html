@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=gb2312" />
+<title>无标题文档</title>
+</head>
+<body>
+<style>
+*{
+  margin:0;
+  padding:0;
+}
+#wrap{
+  position:relative;width:400px;height:400px;
+  border:1px solid #ccc;
+  margin:10px auto;
+}
+.snak, .snakBody{
+  position:absolute;
+  width:10px;height:10px;
+  background:#666;
+}
+.food{
+  position:absolute;width:10px;height:10px;
+  background:#09F;display:block;
+}
+</style>
+<div id="wrap">
+  
+</div>
+<script src="http://ftp152341.host180.web522.com/%E6%89%93%E8%9C%9C%E8%9C%82/zepto.js"></script>
+<script>
+var Snak, Food;;
+
+Food = function(op){ //op为zepto对象
+  var food = $('<span class="food"></span>');
+  food.css({ left : Math.floor(((op[0].clientWidth-10)*Math.random())), top : Math.floor(((op[0].clientHeight-10)*Math.random())) })
+  op.append( food );
+};
+Snak = function(op){
+  this.obj = document.createElement('div');
+  this.obj.className = 'snak';
+  this.op = op;
+};
+Snak.prototype.ev = function(){
+  var _this = this, code;
+  $(window).bind('keydown',function(e){
+    clearInterval(_this.downTimer);
+    code = e.keyCode;
+    _this.downTimer = setInterval(function(){
+      var l = _this.obj.offsetLeft, t = _this.obj.offsetTop;
+      switch( code ){
+        case 37 :
+          l = l - 5;
+        break;
+        case 38 : 
+          t = t - 5;
+        break;
+        case 39 : 
+          l = l + 5;
+        break;
+        case 40:
+          t = t + 5;
+        break;
+      };
+      if( (l<0) || (t<0) || (l>400) || (t>400)){location.reload()};
+      _this.obj.style.left = l + 'px';
+      _this.obj.style.top = t + 'px';
+      var snakB = $('.snakBody');
+      for(var i=snakB.length-1; i>=0; i--){
+        if(i == 0){
+          snakB[0].style.left = l + 'px';
+          snakB[0].style.top = t + 'px';
+        }else{
+          snakB[i].style.left = snakB[i-1].offsetLeft + 'px';
+          snakB[i].style.top = snakB[i-1].offsetTop + 'px';
+        };
+      };
+      if( pz(_this.obj,$('.food')[0]) ){
+        $('.food').remove();
+        new Food(wrap);
+        $('<div class="snakBody"></div>').appendTo(wrap)
+      };
+    },30);
+  }).bind('keyup',function(e){
+  });
+};
+function pz(obj1,obj2){  
+  var L1 = obj1.offsetLeft;
+  var T1 = obj1.offsetTop;
+  var R1 = L1 + obj1.offsetWidth;
+  var B1 = T1 + obj1.offsetHeight;
+  
+  var L2 = obj2.offsetLeft;
+  var T2 = obj2.offsetTop;
+  var R2 = L2 + obj2.offsetWidth;
+  var B2 = T2 + obj2.offsetHeight;
+  if(L1 >= R2 || T1 >= B2 || R1 <= L2 || B1 <= T2){
+    return false;
+  }
+  return true;
+};
+var wrap = $('#wrap'),snak = new Snak(food);
+var food = new Food( wrap );
+snak.ev();
+wrap.append( $('<div class="snakBody"></div>') )[0].appendChild( snak.obj );
+</script>
+</body>
+</html>
+
